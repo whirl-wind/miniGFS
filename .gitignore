@@ -5,6 +5,7 @@ minigfs_master
 minigfs_primary
 minigfs_secondary_A
 minigfs_secondary_B
+minigfs_client.h
 minigfs_server.h
 
 /.vscode
