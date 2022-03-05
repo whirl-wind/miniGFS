@@ -50,7 +50,7 @@ Shadow_Replica::PushChunk2Replica
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << std::endl;
+    std::cout << "calling NFS LookUp" << " (PushChunk2Replica)"<< std::endl;
 
     myv = myClient.PushChunk2Replica("PushChunk2Replica", "This is a Directory JSON string!",
 				     arg_chunk, arg_chunk_index,
