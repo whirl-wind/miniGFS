@@ -11,13 +11,13 @@ int
 main()
 {
   Shadow_Directory gfs_master 
-  { "http://127.0.0.1:8384", "1234567890", "Directory", "00000000" };
+  { "http://127.0.0.1:8384", "1234567890", "Directory", "00000000" }; // updated the "00000002" to "00000000"
 
-  std::string fhandle = "00000002";
+  std::string fhandle = "00000002"; // initiate the fhandle with "00000002"
 
   Json::Value result, result_P, result_A, result_B;
 
-  result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+  result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0"); // use fhandle instead of "00000000"
 
   std::string url_primary = (result["primary"]).asString();
   Shadow_Replica gfs_primary
@@ -33,7 +33,8 @@ main()
 
   std::string my_chunk_data = { "ecs251 data" };
 
-  result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+  // In the following three lines, changed the "00000000" to fhandle
+  result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data); 
   result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
   result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
 
@@ -41,6 +42,7 @@ main()
       ((result_A["vote"]).asString() == "commit") &&
       ((result_B["vote"]).asString() == "commit"))
     {
+      // In the following three lines, changed the "00000000" to fhandle
       result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "commit");

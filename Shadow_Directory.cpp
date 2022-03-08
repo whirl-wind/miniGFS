@@ -26,7 +26,7 @@ Shadow_Directory::ObtainChunkURL
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << " (ObtainChunkURL)"<< std::endl;
+    std::cout << "calling NFS LookUp" << " (ObtainChunkURL)"<< std::endl; // added the "ObtainChunkURL"
 
     myv = myClient.ObtainChunkURL("ObtainChunkURL", "This is a Directory JSON string!", arg_chunk_index,
 			  (this->class_id).c_str(), arg_fhandle, arg_name, 

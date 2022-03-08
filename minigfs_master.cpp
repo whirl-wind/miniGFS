@@ -50,7 +50,7 @@ Myminigfs_Server::ObtainChunkURL
 (const std::string& action, const std::string& arguments, const std::string& chunkindex, const std::string& class_id, const std::string& fhandle, const std::string& filename, const std::string& host_url, const std::string& object_id, const std::string& owner_vsID)
 {
   Json::Value result;
-  std::cout<<"Master ObtainChunkURL!"<<std::endl;
+  std::cout<<"Master ObtainChunkURL!"<<std::endl; // new line for showding the message
 
   if (fhandle != "00000002") // inode 2 is the root
     {
