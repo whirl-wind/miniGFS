@@ -17,7 +17,7 @@
 // ecs251
 #include "Core.h"
 #include "Directory.h"
-#include "Replica.h"
+#include "Replica.h" // included the Replica.h
 #include "Shadow_Directory.h"
 #include <time.h>
 
@@ -42,7 +42,7 @@ Myminigfs_Server::Myminigfs_Server(AbstractServerConnector &connector, serverVer
   std::cout << "Myminigfs_Server Object created" << std::endl;
 }
 
-Replica *mounted;
+Replica *mounted; // changed from Directory to Replica
 
 // member function
 
@@ -60,7 +60,7 @@ Myminigfs_Server::PushChunk2Replica
 (const std::string& action, const std::string& arguments, const std::string& chunk, const std::string& chunkindex, const std::string& class_id, const std::string& fhandle, const std::string& filename, const std::string& host_url, const std::string& object_id, const std::string& owner_vsID)
 {
   Json::Value result;
-  
+  // added lines from 63 to 76
   std::cout<<"Prime_Replica PushChunk2Replica!"<<std::endl;
 
   if (fhandle != "00000002") // inode 2 is the root PS: 我不确定这个if条件是啥。。。
@@ -82,7 +82,7 @@ Myminigfs_Server::CommitAbort
 (const std::string& action, const std::string& arguments, const std::string& chunkindex, const std::string& class_id, const std::string& commitorabort, const std::string& fhandle, const std::string& filename, const std::string& host_url, const std::string& object_id, const std::string& owner_vsID)
 {
   Json::Value result;
-  
+  // same as the previous, added from line 86 to 96
   std::cout<<"Prime_Replica CommitAbort!"<<std::endl;
 
   if (fhandle != "00000002") // inode 2 is the root PS: 我不确定这个if条件是啥。。。
@@ -180,7 +180,7 @@ main()
 
   mounted = (&GFS_primaryReplica);
 
-  HttpServer httpserver(8300);
+  HttpServer httpserver(8300); // 用8300端口
   Myminigfs_Server s(httpserver,
 		JSONRPC_SERVER_V1V2); // hybrid server (json-rpc 1.0 & 2.0)
   s.StartListening();
