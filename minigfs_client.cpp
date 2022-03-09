@@ -17,7 +17,11 @@ main()
 
   Json::Value result, result_P, result_A, result_B;
 
+  //Step1-2
   result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+  while((result["status"]).asString() != "URLpassed"){
+    result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+  }
 
   std::string url_primary = (result["primary"]).asString();
   Shadow_Replica gfs_primary
@@ -33,18 +37,26 @@ main()
 
   std::string my_chunk_data = { "ecs251 data" };
 
-  result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
-  result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
-  result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+  while(true){
+    //Step3
+    result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+    result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+    result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
 
-  if (((result_P["vote"]).asString() == "commit") &&
+    //Step4
+    if (((result_P["vote"]).asString() == "commit") &&
       ((result_A["vote"]).asString() == "commit") &&
       ((result_B["vote"]).asString() == "commit"))
     {
+      //Step6-7
       result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
+      if(((result_P["status"]).asString() == "committed") &&
+      ((result_A["status"]).asString() == "committed") &&
+      ((result_B["status"]).asString() == "committed")) break;
     }
+  }
 
   return 0;
 }

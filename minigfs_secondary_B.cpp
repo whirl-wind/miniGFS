@@ -71,7 +71,6 @@ Myminigfs_Server::PushChunk2Replica
   else
     {
       result = mounted->PushChunk2Replica(filename, fhandle, chunkindex, chunk);
-      result["vote"] = "commit";
     }
 
   return result;
@@ -92,7 +91,6 @@ Myminigfs_Server::CommitAbort
   else
     {
       result = mounted->CommitAbort(filename, fhandle, chunkindex, commitorabort);
-      result["status"] = "committed";
     }
 
   return result;

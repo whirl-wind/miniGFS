@@ -84,6 +84,7 @@ Directory::ObtainChunkURL
   result["primary"]      = (this->the_chunk).chunk_url_primary;
   result["secondary_A"]  = (this->the_chunk).chunk_url_secondary_A;
   result["secondary_B"]  = (this->the_chunk).chunk_url_secondary_B;
+  result["status"] = "URLpassed";
   return result;
 }
 

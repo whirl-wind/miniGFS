@@ -71,8 +71,10 @@ Replica::CommitAbort
 {
   Json::Value result;
   //这里要加
-  if (arg_commitorabort == "commit")
+  if (arg_commitorabort == "commit"){
     (this->committed_data).data  = (this->uncommitted_data).data;
+    result["status"] = "committed";
+  } 
 
   return result;
 }
@@ -82,8 +84,8 @@ Replica::PushChunk2Replica
 (std::string arg_name, std::string arg_fhandle, std::string arg_chunk_index, std::string arg_chunk)
 {
   Json::Value result;
-  //这里要加
   (this->uncommitted_data).data = arg_chunk;
+  result["vote"] = "commit"; 
   return result;
 }
 
