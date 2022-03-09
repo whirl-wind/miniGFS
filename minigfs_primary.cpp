@@ -3,6 +3,7 @@
 
 // 需要实现
 // 步骤3: 接收来自client推送的文件，保存这些文件
+// pre步骤4:告知client接收到文件
 // 步骤4: 接收来自client的写请求
 // 步骤5: 传递来自client的写请求给secondary_A和secondary_B
 // 步骤6: 接收来自secondary_A和secondary_B的操作状态结果
