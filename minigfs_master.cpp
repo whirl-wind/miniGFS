@@ -27,6 +27,15 @@
 using namespace jsonrpc;
 using namespace std;
 
+// class Dirent {
+//   public:
+//     std::string name;
+//     std::string fhandle;
+//     std::string chunk_index;
+//     std::string chunk_url;
+
+// };
+
 class Myminigfs_Server : public minigfs_Server
 {
 public:
