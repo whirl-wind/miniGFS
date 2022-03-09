@@ -1,134 +1,133 @@
 [
-    {
-        // This file remains the same
-        "name": "ObtainChunkURL", // step 1：client询问master文件位置
-        "params": {
-            "action": "LookUp",
-            "filename": "1234567890",
-            "fhandle": "1234567890",
-            "chunkindex": "1234567890",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	        "class_id": "Directory",
-	        "object_id": "0000000001",
-	        "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	        "class_id": "transaction",
-	        "object_id": "0000000001",
-	        "result": "chunkurl"
-        }
+  {
+    "name": "ObtainChunkURL",
+    "params": {
+      "action": "LookUp",
+      "filename": "1234567890",
+      "fhandle": "1234567890",
+      "chunkindex": "1234567890",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
     },
-    {
-        "name": "PushChunk2Replica", // step 3：client把文件推送到所有块
-        "params": {
-            "action": "PushChunkData",
-            "filename": "1234567890",
-            "fhandle": "1234567890",
-            "chunkindex": "1234567890",
-            "chunk": "1234567890",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	    "class_id": "Directory",
-	    "object_id": "0000000001",
-	    "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	    "class_id": "transaction",
-	    "object_id": "0000000001",
-	    "result": "ststus"
-        }
-    },
-    {
-        "name": "CommitAbort", // TBD
-        "params": {
-            "action": "CommitAbort",
-            "filename": "1234567890",
-            "fhandle": "1234567890",
-            "chunkindex": "1234567890",
-	    "commitorabort": "12345678890",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	    "class_id": "Directory",
-	    "object_id": "0000000001",
-	    "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	    "class_id": "transaction",
-	    "object_id": "0000000001",
-	    "result": "status"
-        }
-    },
-    {
-        "name": "LookUp", // step 2：Master查找需要的文件的位置，返回url等待
-        "params": {
-            "action": "LookUp",
-            "filename": "1234567890",
-            "fhandle": "1234567890",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	    "class_id": "Directory",
-	    "object_id": "0000000001",
-	    "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	    "class_id": "transaction",
-	    "object_id": "0000000001",
-	    "result": "jsonstr"
-        }
-    },
-    {
-        "name": "Create", // step 1：如果文件不存在，新建一个文件
-        "params": {
-            "action": "Create",
-            "filename": "1234567890",
-            "fhandle": "1234567890",
-            "sattr": "0644",
-	    "created_class_id": "File",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	    "class_id": "Directory",
-	    "object_id": "0000000001",
-	    "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	    "class_id": "transaction",
-	    "object_id": "0000000001",
-	    "result": "jsonstr"
-        }
-    },
-    {
-        "name": "dumpJ", // step 7：当副本出错，主块回复给client
-        "params": {
-            "action": "dumpJ",
-            "owner_vsID": "default",
-            "host_url": "server url",
-	    "class_id": "Directory",
-	    "object_id": "0000000001",
-	    "arguments": "jsonstr"
-        },
-        "returns": {
-            "action": "call",
-            "owner_vsID": "1234567890",
-            "host_url": "1234567890",
-	    "class_id": "transaction",
-	    "object_id": "0000000001",
-	    "result": "jsonstr"
-        }
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "chunkurl"
     }
+  },
+  {
+    "name": "PushChunk2Replica",
+    "params": {
+      "action": "PushChunkData",
+      "filename": "1234567890",
+      "fhandle": "1234567890",
+      "chunkindex": "1234567890",
+      "chunk": "1234567890",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
+    },
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "ststus"
+    }
+  },
+  {
+    "name": "CommitAbort",
+    "params": {
+      "action": "CommitAbort",
+      "filename": "1234567890",
+      "fhandle": "1234567890",
+      "chunkindex": "1234567890",
+      "commitorabort": "12345678890",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
+    },
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "status"
+    }
+  },
+  {
+    "name": "LookUp",
+    "params": {
+      "action": "LookUp",
+      "filename": "1234567890",
+      "fhandle": "1234567890",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
+    },
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "jsonstr"
+    }
+  },
+  {
+    "name": "Create",
+    "params": {
+      "action": "Create",
+      "filename": "1234567890",
+      "fhandle": "1234567890",
+      "sattr": "0644",
+      "created_class_id": "File",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
+    },
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "jsonstr"
+    }
+  },
+  {
+    "name": "dumpJ",
+    "params": {
+      "action": "dumpJ",
+      "owner_vsID": "default",
+      "host_url": "server url",
+      "class_id": "Directory",
+      "object_id": "0000000001",
+      "arguments": "jsonstr"
+    },
+    "returns": {
+      "action": "call",
+      "owner_vsID": "1234567890",
+      "host_url": "1234567890",
+      "class_id": "transaction",
+      "object_id": "0000000001",
+      "result": "jsonstr"
+    }
+  }
 ]
