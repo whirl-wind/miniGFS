@@ -49,6 +49,7 @@ main()
       ((result_B["vote"]).asString() == "commit"))
     {
       //Step7
+      //仅primary回复数据写入执行的结果到client
       result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       
       if(((result_P["status"]).asString() == "committed")) break;

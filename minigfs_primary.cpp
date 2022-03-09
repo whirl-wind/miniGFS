@@ -44,6 +44,7 @@ Myminigfs_Server::Myminigfs_Server(AbstractServerConnector &connector, serverVer
 }
 
 Replica *mounted;
+// primary与gfs_secondary_A, gfs_secondary_B优先级不同
 Shadow_Replica *gfs_secondary_A;
 Shadow_Replica *gfs_secondary_B;
 
@@ -66,7 +67,7 @@ Myminigfs_Server::PushChunk2Replica
   
   std::cout<<"Prime_Replica PushChunk2Replica!"<<std::endl;
 
-  if (fhandle != "00000002") // inode 2 is the root PS: 我不确定这个if条件是啥。。。
+  if (fhandle != "00000002") // inode 2 is the root
     {
       result["status"] = "GFSERR_STALE";
       result["vote"] = "abort";
@@ -87,22 +88,22 @@ Myminigfs_Server::CommitAbort
   
   std::cout<<"Prime_Replica CommitAbort!"<<std::endl;
 
-  if (fhandle != "00000002") // inode 2 is the root PS: 我不确定这个if条件是啥。。。
+  if (fhandle != "00000002") // inode 2 is the root
     {
       result["status"] = "GFSERR_STALE";
     }
   else
     {
-      //Step5-6
+      // Step5-6
       Json::Value result_P = mounted->CommitAbort(filename, fhandle, chunkindex, commitorabort);
       // result_P["status"] = "Bad";
-      result["status_P"] = (result_P["status"]).asString();
-      if(((result_P["status"]).asString() == "committed")){
+      result["status_P"] = (result_P["status"]).asString(); // 保证primary在线
+      if(((result_P["status"]).asString() == "committed")){ // Step5：primary传递“写请求”到secondaryAB
         Json::Value result_A = gfs_secondary_A->CommitAbort(filename, fhandle, chunkindex, commitorabort);
         Json::Value result_B = gfs_secondary_B->CommitAbort(filename, fhandle, chunkindex, commitorabort);
         result["status_A"] = (result_A["status"]).asString();
         result["status_B"] = (result_B["status"]).asString();
-        if(((result_A["status"]).asString() == "committed")&&((result_B["status"]).asString() == "committed")) result["status"]="committed";
+        if(((result_A["status"]).asString() == "committed")&&((result_B["status"]).asString() == "committed")) result["status"]="committed"; // Step6：secondaryA,B告诉primary“写操作”成功的结果
       }
     }
 
@@ -191,6 +192,7 @@ main()
 
   mounted = (&GFS_primaryReplica);
 
+  // SecondaryA,B
   std::string url_secondary_A = "http://127.0.0.1:8301";
   gfs_secondary_A = new Shadow_Replica{ url_secondary_A, "1234567890", "Replica", "00000002"};
 
