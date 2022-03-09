@@ -1,6 +1,10 @@
 
 // miniGFS Master Index Server
 
+// 需要实现
+// 步骤2: 查找文件的位置，并将其返回给client
+
+
 // for Json::value
 #include <json/json.h>
 #include <json/reader.h>

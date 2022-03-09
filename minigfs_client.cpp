@@ -1,6 +1,11 @@
 
 // ecs251 miniGFS
 
+// 需要实现
+// 步骤1：向master询问文件位置
+// 步骤4：向主块primary发送写请求
+
+
 #include <iostream>
 #include "Shadow_Directory.h"
 #include "Shadow_Replica.h"

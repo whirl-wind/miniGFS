@@ -1,7 +1,7 @@
 [
     {
         // This file remains the same
-        "name": "ObtainChunkURL",
+        "name": "ObtainChunkURL", // step 1：client询问master文件位置
         "params": {
             "action": "LookUp",
             "filename": "1234567890",
@@ -23,7 +23,7 @@
         }
     },
     {
-        "name": "PushChunk2Replica",
+        "name": "PushChunk2Replica", // step 3：client把文件推送到所有块
         "params": {
             "action": "PushChunkData",
             "filename": "1234567890",
@@ -46,7 +46,7 @@
         }
     },
     {
-        "name": "CommitAbort",
+        "name": "CommitAbort", // TBD
         "params": {
             "action": "CommitAbort",
             "filename": "1234567890",
@@ -69,7 +69,7 @@
         }
     },
     {
-        "name": "LookUp",
+        "name": "LookUp", // step 2：Master查找需要的文件的位置，返回url等待
         "params": {
             "action": "LookUp",
             "filename": "1234567890",
@@ -90,7 +90,7 @@
         }
     },
     {
-        "name": "Create",
+        "name": "Create", // step 1：如果文件不存在，新建一个文件
         "params": {
             "action": "Create",
             "filename": "1234567890",
@@ -113,7 +113,7 @@
         }
     },
     {
-        "name": "dumpJ",
+        "name": "dumpJ", // step 7：当副本出错，主块回复给client
         "params": {
             "action": "dumpJ",
             "owner_vsID": "default",

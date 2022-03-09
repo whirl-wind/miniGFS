@@ -1,6 +1,11 @@
 
 // miniNFS
 
+// 需要实现
+// 步骤3: 接收来自client推送的文件，保存这些文件
+// 步骤5: 接收来自primary的写请求
+// 步骤6: 向primary告诉文件状态结果
+
 // for Json::value
 #include <json/json.h>
 #include <json/reader.h>
