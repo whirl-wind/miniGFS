@@ -48,13 +48,10 @@ main()
       ((result_A["vote"]).asString() == "commit") &&
       ((result_B["vote"]).asString() == "commit"))
     {
-      //Step6-7
+      //Step7
       result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
-      result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
-      result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
-      if(((result_P["status"]).asString() == "committed") &&
-      ((result_A["status"]).asString() == "committed") &&
-      ((result_B["status"]).asString() == "committed")) break;
+      
+      if(((result_P["status"]).asString() == "committed")) break;
     }
   }
 

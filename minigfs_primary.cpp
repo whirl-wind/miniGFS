@@ -19,6 +19,7 @@
 #include "Directory.h"
 #include "Replica.h"
 #include "Shadow_Directory.h"
+#include "Shadow_Replica.h"
 #include <time.h>
 
 using namespace jsonrpc;
@@ -43,6 +44,8 @@ Myminigfs_Server::Myminigfs_Server(AbstractServerConnector &connector, serverVer
 }
 
 Replica *mounted;
+Shadow_Replica *gfs_secondary_A;
+Shadow_Replica *gfs_secondary_B;
 
 // member function
 
@@ -90,7 +93,17 @@ Myminigfs_Server::CommitAbort
     }
   else
     {
-      result = mounted->CommitAbort(filename, fhandle, chunkindex, commitorabort);
+      //Step5-6
+      Json::Value result_P = mounted->CommitAbort(filename, fhandle, chunkindex, commitorabort);
+      // result_P["status"] = "Bad";
+      result["status_P"] = (result_P["status"]).asString();
+      if(((result_P["status"]).asString() == "committed")){
+        Json::Value result_A = gfs_secondary_A->CommitAbort(filename, fhandle, chunkindex, commitorabort);
+        Json::Value result_B = gfs_secondary_B->CommitAbort(filename, fhandle, chunkindex, commitorabort);
+        result["status_A"] = (result_A["status"]).asString();
+        result["status_B"] = (result_B["status"]).asString();
+        if(((result_A["status"]).asString() == "committed")&&((result_B["status"]).asString() == "committed")) result["status"]="committed";
+      }
     }
 
   return result;
@@ -177,6 +190,13 @@ main()
   { "http://169.237.6.102", "1234567890", "Replica", "00000001", "This is Prime_Replica!"};
 
   mounted = (&GFS_primaryReplica);
+
+  std::string url_secondary_A = "http://127.0.0.1:8301";
+  gfs_secondary_A = new Shadow_Replica{ url_secondary_A, "1234567890", "Replica", "00000002"};
+
+  std::string url_secondary_B = "http://127.0.0.1:8302";
+  gfs_secondary_B = new Shadow_Replica{ url_secondary_B, "1234567890", "Replica", "00000003" };
+
 
   HttpServer httpserver(8300);
   Myminigfs_Server s(httpserver,

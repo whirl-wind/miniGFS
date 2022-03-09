@@ -91,6 +91,7 @@ Myminigfs_Server::CommitAbort
   else
     {
       result = mounted->CommitAbort(filename, fhandle, chunkindex, commitorabort);
+      // result["status"] = "Bad";
     }
 
   return result;
