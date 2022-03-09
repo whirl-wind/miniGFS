@@ -2,8 +2,8 @@
 // ecs251 miniGFS
 
 // 需要实现
-// 步骤1：向master询问文件位置
-// 步骤4：向主块primary发送写请求
+// 步骤1：向master询问文件位置->ObtainChunkURL()
+// 步骤4：向主块primary发送写请求->PushChunk2Replica()
 
 
 #include <iostream>
@@ -25,7 +25,7 @@ main()
   result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0"); // use fhandle instead of "00000000"
 
   std::string url_primary = (result["primary"]).asString();
-  Shadow_Replica gfs_primary
+  Shadow_Replica gfs_primary                                  // for client，3个都是shadow replica
   { url_primary, "1234567890", "Replica", "00000001" };
 
   std::string url_secondary_A = (result["secondary_A"]).asString();
@@ -39,7 +39,7 @@ main()
   std::string my_chunk_data = { "ecs251 data" };
 
   // In the following three lines, changed the "00000000" to fhandle
-  result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data); 
+  result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data); // 从不同的replicas拿到result
   result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
   result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
 
@@ -52,6 +52,12 @@ main()
       result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
       result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
     }
+      // added else statement for "abort"
+  else {
+      result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "abort");
+      result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "abort");
+      result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "abort");
+  }
 
   return 0;
 }

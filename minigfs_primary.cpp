@@ -9,6 +9,7 @@
 // 步骤6: 接收来自secondary_A和secondary_B的操作状态结果
 // 步骤7: 向client告知文件操作的状态结果
 // ？哪个步骤告诉master：存的文件以及位置
+// Create replicas
 
 // for Json::value
 #include <json/json.h>
