@@ -1,9 +1,11 @@
 
 #include "Replica.h"
+#include <sstream>
+#include <map>
 
 Chunk::Chunk()
 {
-  this->data = "";
+  this->data = "100\nThis is a test!\n101\nThis is a test too!\n";
 }
 
 Chunk::Chunk(std::string arg_data)
@@ -84,7 +86,82 @@ Replica::PushChunk2Replica
 (std::string arg_name, std::string arg_fhandle, std::string arg_chunk_index, std::string arg_chunk)
 {
   Json::Value result;
-  (this->uncommitted_data).data = arg_chunk;
+  // (this->uncommitted_data).data = arg_chunk;
+  if((this->committed_data).data=="") {
+    result["vote"] = "abort"; 
+    result["Error"] = "Chunk Error";
+    std::cout<<"Chunk Error"<<std::endl;
+    return result;
+  }
+  else{
+      std::stringstream ss;
+      ss.clear();
+      ss.str((this->committed_data).data);
+      std::map<std::string, std::string> pkg_map;
+      while (1)
+      {
+          std::string pkg_id, position;
+          std::getline(ss,pkg_id);
+          std::getline(ss,position);
+
+          // std::cout<<pkg_id<<std::endl;
+          // std::cout<<position<<std::endl;
+          
+          if(pkg_id==""||pkg_id=="\n") break;
+          if(!(pkg_map.insert(std::pair<std::string, std::string>(pkg_id, position))).second){
+              result["vote"] = "abort";
+              result["Error"] = "Chunk Error";
+              std::cout<<"Chunk Error"<<std::endl;
+              return result; 
+          }
+          
+          if ( ss.fail() ) break;
+      }
+      //pkg_map.insert(std::pair<std::string, std::string>("100", "position"));
+
+      ss.clear();
+      ss.str(arg_chunk);
+      std::string start, end;
+      std::getline(ss,start);
+      std::getline(ss,end);
+      while (1)
+      {
+          std::string pkg_id;
+          std::getline(ss,pkg_id);
+          if(pkg_id==""||pkg_id=="\n") break;
+          // std::cout<<pkg_id<<std::endl;
+
+          auto iter = pkg_map.find(pkg_id);
+ 
+          if(iter != pkg_map.end()){
+              if(iter->second!=start){
+                  result["vote"] = "abort";
+                  result["Error"] = "Pkg position Error";
+                  std::cout<<"Pkg position Error"<<std::endl;
+                  return result; 
+              }
+              iter->second = end;
+          }
+          // else{
+          //     result["vote"] = "abort";
+          //     result["Error"] = "Flight pkg Error";
+          //     return result; 
+          // }
+
+          // std::cout<<pkg_id<<std::endl;
+          // std::cout<<position<<std::endl;
+          
+          if ( ss.fail() ) break;
+      }
+      std::string save_data = "";
+      std::map<std::string, std::string>::iterator iter;
+      iter = pkg_map.begin();
+      while(iter != pkg_map.end()) {
+          save_data += iter->first + "\n" + iter->second + "\n";
+          iter++;
+      }
+      (this->uncommitted_data).data = save_data;
+  }
   result["vote"] = "commit"; 
   return result;
 }
@@ -92,7 +169,7 @@ Replica::PushChunk2Replica
 Json::Value *
 Replica::dumpJ()
 {
-  Json::Value * result_ptr = new Json::Value();
+  Json::Value * result_ptr = this->committed_data.dumpJ();
 
   if (this->name != "")
     {

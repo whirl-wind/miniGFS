@@ -1,0 +1,242 @@
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+===============Flight001 CA->NY Loading PKG===============
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+calling NFS dumpJ
+{
+        "data" : "100\nCA\n101\nCA\n1\nCA\n",
+        "status" : "NFS_OK"
+}
+
+Good! Successfully loaded package: 100
+---------------Flight001 CA->NY PKG loaded---------------
+===============Flight001 CA->NY Loading PKG===============
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+calling NFS dumpJ
+{
+        "data" : "100\nCA\n101\nCA\n1\nCA\n",
+        "status" : "NFS_OK"
+}
+
+Good! Successfully loaded package: 1
+---------------Flight001 CA->NY PKG loaded---------------
+===============Flight001 CA->NY Took Off===============
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+
+........................................
+CA
+NY
+100
+1
+........................................
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+---------------Flight001 NY->CA Landed---------------
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+===============Check PKG Data===============
+calling NFS dumpJ
+{
+        "data" : "1\nNY\n100\nNY\n101\nCA\n",
+        "status" : "NFS_OK"
+}
+
+
+........................................
+   1 :   NY
+ 100 :   NY
+ 101 :   CA
+........................................
+
+---------------Checked PKG Data---------------
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+===============Flight002 NY->LA Loading PKG===============
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+calling NFS dumpJ
+{
+        "data" : "1\nNY\n100\nNY\n101\nCA\n",
+        "status" : "NFS_OK"
+}
+
+Good! Successfully loaded package: 1
+---------------Flight002 NY->LA PKG loaded---------------
+===============Flight002 NY->LA Took Off===============
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+
+........................................
+NY
+LA
+1
+........................................
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp (PushChunk2Replica)
+{
+        "vote" : "commit"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+calling NFS LookUp
+{
+        "status" : "committed"
+}
+
+---------------Flight002 LA->NY Landed---------------
+calling NFS LookUp (ObtainChunkURL)
+{
+        "primary" : "http://127.0.0.1:8300",
+        "secondary_A" : "http://127.0.0.1:8301",
+        "secondary_B" : "http://127.0.0.1:8302",
+        "status" : "URLpassed"
+}
+
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+a shadow has been created
+Shadow created
+===============Check PKG Data===============
+calling NFS dumpJ
+{
+        "data" : "1\nLA\n100\nNY\n101\nCA\n",
+        "status" : "NFS_OK"
+}
+
+
+........................................
+   1 :   LA
+ 100 :   NY
+ 101 :   CA
+........................................
+
+---------------Checked PKG Data---------------

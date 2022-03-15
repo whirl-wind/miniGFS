@@ -1,29 +1,257 @@
-// miniNFS
-// for Json::value
-#include <json/json.h>
-#include <json/reader.h>
-#include <json/writer.h>
-#include <json/value.h>
-#include <string>
-
-// for JsonRPCCPP
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <map>
 #include "minigfs_client.h"
-#include <stdio.h>
-
-// ecs251
-#include "Core.h"
-#include "Directory.h"
-#include "Replica.h"
 #include "Shadow_Directory.h"
-#include <time.h>
+#include "Shadow_Replica.h"
 
 using namespace jsonrpc;
 using namespace std;
 
-class Flight : public minigfs_Client
+class Flight
 {
 public:
-  Flight(AbstractServerConnector &connector, serverVersion_t type);
-  //加函数
+    Flight(std::string flight_ID, std::string from, std::string to) {
+        gfs_master = Shadow_Directory{ "http://127.0.0.1:8384", "1234567890", "Directory", "00000000" };
+        fhandle = std::string("00000002");
+        
+        flight_id = flight_ID;
+        _from = from;
+        _to = to;
+        pkg_arr.clear();
+    }
+
+    int landed();
+    void set_destination(std::string position);
+    void load_package(std::string pkg_id);
+    void check_data();
+
+    Shadow_Directory gfs_master = Shadow_Directory{ "http://127.0.0.1:8384", "1234567890", "Directory", "00000000" };
+    std::string fhandle;
+
+    std::string flight_id;
+    std::vector<std::string> pkg_arr;
+    std::string _from;
+    std::string _to;
 };
+
+void Flight::set_destination(std::string position){
+    _to = position;
+}
+
+void Flight::check_data(){
+    Json::Value result, result_P, result_A, result_B;
+    result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    while((result["status"]).asString() != "URLpassed"){
+        result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    }
+
+    std::string url_primary = (result["primary"]).asString();
+    Shadow_Replica gfs_primary
+    { url_primary, "1234567890", "Replica", "00000001" };
+
+    std::string url_secondary_A = (result["secondary_A"]).asString();
+    Shadow_Replica gfs_secondary_A
+    { url_secondary_A, "1234567890", "Replica", "00000002" };
+
+    std::string url_secondary_B = (result["secondary_B"]).asString();
+    Shadow_Replica gfs_secondary_B
+    { url_secondary_B, "1234567890", "Replica", "00000003" };
+
+    std::cout<<"===============Check PKG Data==============="<<std::endl;
+    result = *gfs_primary.dumpJ();
+    if((result["data"]).isString()) {
+        std::string data = (result["data"]).asString();
+        std::stringstream ss;
+        ss.clear();
+        ss.str(data);
+        std::string line;
+        std::cout<<"\n........................................"<<std::endl;
+        while (1)
+        {
+            std::getline(ss,line);
+            if(line==""||line=="\n") break;
+            std::cout<<std::setw(4)<<line<<" : ";
+            std::getline(ss,line);
+            std::cout<<std::setw(4)<<line<<std::endl;
+
+            if ( ss.fail() ) break;
+        }
+        std::cout<<"........................................\n"<<std::endl;
+        
+        std::cout<<"---------------Checked PKG Data---------------"<<std::endl;
+    }
+    else std::cout<<"------------!!!Check PKG Data!!!------------"<<std::endl;
+}
+
+void Flight::load_package(std::string ld_pkg_id){
+    std::cout<<"===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Loading PKG==============="<<std::endl;
+
+    Json::Value result, result_P, result_A, result_B;
+    result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    while((result["status"]).asString() != "URLpassed"){
+        result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    }
+
+    std::string url_primary = (result["primary"]).asString();
+    Shadow_Replica gfs_primary
+    { url_primary, "1234567890", "Replica", "00000001" };
+
+    std::string url_secondary_A = (result["secondary_A"]).asString();
+    Shadow_Replica gfs_secondary_A
+    { url_secondary_A, "1234567890", "Replica", "00000002" };
+
+    std::string url_secondary_B = (result["secondary_B"]).asString();
+    Shadow_Replica gfs_secondary_B
+    { url_secondary_B, "1234567890", "Replica", "00000003" };
+
+    result = *gfs_primary.dumpJ();
+
+    if((result["data"]).isString()) {
+        std::string data = (result["data"]).asString();
+        std::stringstream ss;
+        ss.clear();
+        ss.str(data);
+        std::map<std::string, std::string> pkg_map;
+        while (1)
+        {
+            std::string pkg_id, position;
+            std::getline(ss,pkg_id);
+            std::getline(ss,position);
+
+            // std::cout<<pkg_id<<std::endl;
+            // std::cout<<position<<std::endl;
+            
+            if(pkg_id==""||pkg_id=="\n") break;
+            if(!(pkg_map.insert(std::pair<std::string, std::string>(pkg_id, position))).second){
+                std::cout<<"Chunk Error"<<std::endl;
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+                return; 
+            }
+            
+            if ( ss.fail() ) break;
+        }
+
+        auto iter = pkg_map.find(ld_pkg_id);
+ 
+        if(iter != pkg_map.end()){
+            if(iter->second!=_from){
+                std::cout<<"Pkg position is not here!"<<std::endl;
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+                return; 
+            }
+        }
+        else{
+            // Load package!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+    }
+    else {
+        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+        return;
+    }
+
+    if (find(pkg_arr.begin(), pkg_arr.end(), ld_pkg_id) == pkg_arr.end()){
+        pkg_arr.push_back(ld_pkg_id);
+        std::cout<<"Good! Successfully loaded package: "<< ld_pkg_id <<std::endl;
+    }
+    else {
+        std::cout<<"Bad!! Already loaded this package: "<< ld_pkg_id <<std::endl;
+        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+        return;
+    }
+
+    std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" PKG loaded---------------"<<std::endl;
+}
+
+int Flight::landed(){
+    std::cout<<"===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Took Off==============="<<std::endl;
+    string position = _to;
+    _to = _from;
+    _from = position;
+
+    Json::Value result, result_P, result_A, result_B;
+    result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    while((result["status"]).asString() != "URLpassed"){
+        result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
+    }
+
+    std::string url_primary = (result["primary"]).asString();
+    Shadow_Replica gfs_primary
+    { url_primary, "1234567890", "Replica", "00000001" };
+
+    std::string url_secondary_A = (result["secondary_A"]).asString();
+    Shadow_Replica gfs_secondary_A
+    { url_secondary_A, "1234567890", "Replica", "00000002" };
+
+    std::string url_secondary_B = (result["secondary_B"]).asString();
+    Shadow_Replica gfs_secondary_B
+    { url_secondary_B, "1234567890", "Replica", "00000003" };
+
+    std::string my_chunk_data = _to + "\n" + position + "\n";
+    for(int i=0;i<pkg_arr.size();i++){
+        my_chunk_data += pkg_arr[i] + "\n";
+    }
+
+    std::cout<<"\n........................................"<<std::endl;
+    std::cout<<my_chunk_data;
+    std::cout<<"........................................\n"<<std::endl;
+
+    while(true){
+        //Step3
+        result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+        result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+        result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+
+        //Step4
+        if (((result_P["vote"]).asString() == "commit") &&
+        ((result_A["vote"]).asString() == "commit") &&
+        ((result_B["vote"]).asString() == "commit"))
+        {
+            //Step6-7
+            result_P = gfs_primary.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
+            result_A = gfs_secondary_A.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
+            result_B = gfs_secondary_B.CommitAbort("my_ecs251_file", fhandle, "0", "commit");
+            if(((result_P["status"]).asString() == "committed") &&
+            ((result_A["status"]).asString() == "committed") &&
+            ((result_B["status"]).asString() == "committed")) {
+                std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landed---------------"<<std::endl;
+                break;
+            }
+        }
+        else{
+            // if(((result_P["Error"]).asString() == "Chunk Error") ||
+            // ((result_A["Error"]).asString() == "Chunk Error") ||
+            // ((result_B["Error"]).asString() == "Chunk Error") || 
+            // ((result_P["Error"]).asString() == "Chunk Error") ||
+            // ((result_A["Error"]).asString() == "Chunk Error") ||
+            // ((result_B["Error"]).asString() == "Chunk Error")) break;
+            if(!(result_P["Error"]).isNull() || !(result_P["Error"]).isNull() || !(result_P["Error"]).isNull()) {
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landing!!!------------"<<std::endl;
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int
+main()
+{
+    Flight flight1("001","CA","NY");
+    // Flight flight1("001","NY","CA");
+    flight1.load_package("100");
+    flight1.load_package("1");
+    // flight1.load_package("2");
+    // flight1.load_package("1");
+    flight1.landed();
+    flight1.check_data();
+
+    Flight flight2("002","NY","LA");
+    flight2.load_package("1");
+    flight2.landed();
+    flight2.check_data();
+
+    return 0;
+}
