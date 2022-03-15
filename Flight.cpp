@@ -215,6 +215,7 @@ int Flight::landed(){
             if(((result_P["status"]).asString() == "committed") &&
             ((result_A["status"]).asString() == "committed") &&
             ((result_B["status"]).asString() == "committed")) {
+                pkg_arr.clear();
                 std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landed---------------"<<std::endl;
                 break;
             }
