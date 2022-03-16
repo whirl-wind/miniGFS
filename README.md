@@ -7,7 +7,7 @@
 |Xi Yang|917869017|xiiyang@ucdavis.edu|
 |Weijia Wang|918910994|wjawang@ucdavis.edu|
 
-**Please Check [result.txt](./result.txt) first!!!**
+**!!!Please Check [result.txt](./result.txt) first!!!**
 
 ### Run
 
