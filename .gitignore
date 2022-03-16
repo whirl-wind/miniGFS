@@ -1,5 +1,6 @@
 # Makefile
 *.o
+run
 minigfs_client
 minigfs_master
 minigfs_primary
