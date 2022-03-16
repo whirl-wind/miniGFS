@@ -1,7 +1,9 @@
 
 #include "Replica.h"
 #include <sstream>
+#include <iomanip>
 #include <map>
+#include <tuple>
 
 Chunk::Chunk()
 {
@@ -53,7 +55,7 @@ Replica::Replica
   : Core { core_arg_host_url, core_arg_owner_vsID,
     core_arg_class_id, core_arg_object_id }
 {
-  std::cout << "a shadow has been created" << std::endl;
+  // std::cout << "a shadow has been created" << std::endl;
 }
 
 Replica::Replica
@@ -76,6 +78,25 @@ Replica::CommitAbort
   if (arg_commitorabort == "commit"){
     (this->committed_data).data  = (this->uncommitted_data).data;
     result["status"] = "committed";
+    std::string data = (this->committed_data).data;
+    std::stringstream ss;
+    ss.clear();
+    ss.str(data);
+    std::string line;
+    std::cout<<"\n........................."<<std::endl;
+        while (1)
+        {
+            std::getline(ss,line);
+            if(line==""||line=="\n") break;
+            std::cout<<"pkg "<<std::setw(4)<<line<<" : ";
+            std::getline(ss,line);
+            std::cout<<std::setw(4)<<line<<" -> ";
+            std::getline(ss,line);
+            std::cout<<std::setw(4)<<line<<std::endl;
+
+            if ( ss.fail() ) break;
+        }
+        std::cout<<".........................\n"<<std::endl;
   } 
 
   return result;
@@ -87,7 +108,7 @@ Replica::PushChunk2Replica
 {
   Json::Value result;
   // (this->uncommitted_data).data = arg_chunk;
-  if((this->committed_data).data=="") {
+  if((this->committed_data).data==""&&false) {
     result["vote"] = "abort"; 
     result["Error"] = "Chunk Error";
     std::cout<<"Chunk Error"<<std::endl;
@@ -97,18 +118,19 @@ Replica::PushChunk2Replica
       std::stringstream ss;
       ss.clear();
       ss.str((this->committed_data).data);
-      std::map<std::string, std::string> pkg_map;
+      std::map<std::string, std::tuple<std::string, std::string> > pkg_map;
       while (1)
       {
-          std::string pkg_id, position;
+          std::string pkg_id, position, destination;
           std::getline(ss,pkg_id);
           std::getline(ss,position);
+          std::getline(ss,destination);
 
           // std::cout<<pkg_id<<std::endl;
           // std::cout<<position<<std::endl;
           
           if(pkg_id==""||pkg_id=="\n") break;
-          if(!(pkg_map.insert(std::pair<std::string, std::string>(pkg_id, position))).second){
+          if(!(pkg_map.insert(std::pair<std::string, std::tuple<std::string, std::string> >(pkg_id, std::tuple<std::string, std::string>(position, destination)))).second){
               result["vote"] = "abort";
               result["Error"] = "Chunk Error";
               std::cout<<"Chunk Error"<<std::endl;
@@ -121,43 +143,73 @@ Replica::PushChunk2Replica
 
       ss.clear();
       ss.str(arg_chunk);
-      std::string start, end;
-      std::getline(ss,start);
-      std::getline(ss,end);
-      while (1)
-      {
-          std::string pkg_id;
-          std::getline(ss,pkg_id);
-          if(pkg_id==""||pkg_id=="\n") break;
-          // std::cout<<pkg_id<<std::endl;
+      std::string ind;
+      std::getline(ss,ind);
+      if(ind[0]=='F'){
+        std::string start, end;
+        std::getline(ss,start);
+        std::getline(ss,end);
+        while (1)
+        {
+            std::string pkg_id;
+            std::getline(ss,pkg_id);
+            if(pkg_id==""||pkg_id=="\n") break;
+            // std::cout<<pkg_id<<std::endl;
 
-          auto iter = pkg_map.find(pkg_id);
- 
-          if(iter != pkg_map.end()){
-              if(iter->second!=start){
-                  result["vote"] = "abort";
-                  result["Error"] = "Pkg position Error";
-                  std::cout<<"Pkg position Error"<<std::endl;
-                  return result; 
-              }
-              iter->second = end;
-          }
-          // else{
-          //     result["vote"] = "abort";
-          //     result["Error"] = "Flight pkg Error";
-          //     return result; 
-          // }
+            auto iter = pkg_map.find(pkg_id);
+  
+            if(iter != pkg_map.end()){
+                if(std::get<0>(iter->second)!=start){
+                    result["vote"] = "abort";
+                    result["Error"] = "Pkg position Error";
+                    std::cout<<"Pkg position Error"<<std::endl;
+                    return result; 
+                }
+                if(end == std::get<1>(iter->second)) //arrive destination
+                {
+                    pkg_map.erase(iter);
+                }
+                else std::get<0>(iter->second) = end;
+            }
+            // else{
+            //     result["vote"] = "abort";
+            //     result["Error"] = "Flight pkg Error";
+            //     return result; 
+            // }
 
-          // std::cout<<pkg_id<<std::endl;
-          // std::cout<<position<<std::endl;
-          
-          if ( ss.fail() ) break;
+            // std::cout<<pkg_id<<std::endl;
+            // std::cout<<position<<std::endl;
+            
+            if ( ss.fail() ) break;
+        }
       }
+      else if(ind[0]=='S'){
+            std::string pkg_id, pos, tar;
+            std::getline(ss,pkg_id);
+            std::getline(ss,pos);
+            std::getline(ss,tar);
+
+            auto iter = pkg_map.find(pkg_id);
+
+            if(iter != pkg_map.end()){
+                if(std::get<0>(iter->second)!=pos){
+                    result["vote"] = "abort";
+                    result["Error"] = "Pkg position Error";
+                    std::cout<<"Pkg position Error"<<std::endl;
+                    return result; 
+                }
+                std::get<1>(iter->second) = tar;
+            }
+            else{
+                pkg_map.insert(std::pair<std::string, std::tuple<std::string, std::string> >(pkg_id, std::tuple<std::string, std::string>(pos, tar)));
+            }
+      }
+      
       std::string save_data = "";
-      std::map<std::string, std::string>::iterator iter;
+      std::map<std::string, std::tuple<std::string, std::string> > ::iterator iter;
       iter = pkg_map.begin();
       while(iter != pkg_map.end()) {
-          save_data += iter->first + "\n" + iter->second + "\n";
+          save_data += iter->first + "\n" + std::get<0>(iter->second) + "\n" + std::get<1>(iter->second) +"\n";
           iter++;
       }
       (this->uncommitted_data).data = save_data;

@@ -1,242 +1,439 @@
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
+/////////////////////////////////////////////////////
+///////////////////  无错误版本 ///////////////////////
+/////////////////////////////////////////////////////
+
+===============Seller 001 adding PKG 1===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 001
+* Delivering PKG: 1
+
+
+===============Seller 001 adding PKG 2===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 001
+* Delivering PKG: 1, 2
+
+
+===============Seller 001 adding PKG 3===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 001
+* Delivering PKG: 1, 2, 3
+
+
+===============Check Data: Seller 001===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg    2 :   NY ->   AK
+pkg    3 :   CA ->   XX
+.........................
+
+Delivering PKG: 1, 2, 3
+
+===============Seller 002 adding PKG 100===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 002
+* Delivering PKG: 100
+
+
+===============Seller 002 adding PKG 101===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 002
+* Delivering PKG: 100, 101
+
+
+===============Check Data: Seller 002===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg  100 :   CA ->   NY
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   CA ->   XX
+.........................
+
+Delivering PKG: 100, 101
+
 ===============Flight001 CA->NY Loading PKG===============
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
-
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-calling NFS dumpJ
-{
-        "data" : "100\nCA\n101\nCA\n1\nCA\n",
-        "status" : "NFS_OK"
-}
-
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
 Good! Successfully loaded package: 100
----------------Flight001 CA->NY PKG loaded---------------
+
 ===============Flight001 CA->NY Loading PKG===============
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
-
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-calling NFS dumpJ
-{
-        "data" : "100\nCA\n101\nCA\n1\nCA\n",
-        "status" : "NFS_OK"
-}
-
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
 Good! Successfully loaded package: 1
----------------Flight001 CA->NY PKG loaded---------------
+
+===============Flight001 CA->NY Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 3
+
+===============Check Data: Flight001 CA->NY===============
+Loaded PKG: 100, 1, 3
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg  100 :   CA ->   NY
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   CA ->   XX
+.........................
+
+
 ===============Flight001 CA->NY Took Off===============
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
+calling GFS LookUp (ObtainChunkURL)
 
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
+* Flight 001: NY->CA
+* Loaded PKG: 100, 1, 3
 
-........................................
-CA
-NY
-100
-1
-........................................
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
 
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
+===============Check Data: Flight001 NY->CA===============
+Loaded PKG: None
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
 
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
-
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
----------------Flight001 NY->CA Landed---------------
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
-
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-===============Check PKG Data===============
-calling NFS dumpJ
-{
-        "data" : "1\nNY\n100\nNY\n101\nCA\n",
-        "status" : "NFS_OK"
-}
+.........................
+pkg    1 :   NY ->   AK
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
 
 
-........................................
-   1 :   NY
- 100 :   NY
- 101 :   CA
-........................................
-
----------------Checked PKG Data---------------
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-===============Flight002 NY->LA Loading PKG===============
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
-
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-calling NFS dumpJ
-{
-        "data" : "1\nNY\n100\nNY\n101\nCA\n",
-        "status" : "NFS_OK"
-}
-
+===============Flight002 NY->AK Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
 Good! Successfully loaded package: 1
----------------Flight002 NY->LA PKG loaded---------------
-===============Flight002 NY->LA Took Off===============
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
 
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
+===============Flight002 NY->AK Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 2
 
-........................................
-NY
-LA
-1
-........................................
+===============Check Data: Flight002 NY->AK===============
+Loaded PKG: 1, 2
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
 
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
-
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
-
-calling NFS LookUp (PushChunk2Replica)
-{
-        "vote" : "commit"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
-calling NFS LookUp
-{
-        "status" : "committed"
-}
-
----------------Flight002 LA->NY Landed---------------
-calling NFS LookUp (ObtainChunkURL)
-{
-        "primary" : "http://127.0.0.1:8300",
-        "secondary_A" : "http://127.0.0.1:8301",
-        "secondary_B" : "http://127.0.0.1:8302",
-        "status" : "URLpassed"
-}
-
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-a shadow has been created
-Shadow created
-===============Check PKG Data===============
-calling NFS dumpJ
-{
-        "data" : "1\nLA\n100\nNY\n101\nCA\n",
-        "status" : "NFS_OK"
-}
+.........................
+pkg    1 :   NY ->   AK
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
 
 
-........................................
-   1 :   LA
- 100 :   NY
- 101 :   CA
-........................................
+===============Flight002 NY->AK Took Off===============
+calling GFS LookUp (ObtainChunkURL)
 
----------------Checked PKG Data---------------
+* Flight 002: AK->NY
+* Loaded PKG: 1, 2
+
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+===============Check Data: Flight002 AK->NY===============
+Loaded PKG: None
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+
+===============Check Data: Seller 001===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: 3
+
+===============Check Data: Seller 002===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: 101
+
+//////////////////////////////////////////////////////
+//////////// 再跑一遍是错误版本，因为已更新 ///////////////
+//////////////////////////////////////////////////////
+
+===============Seller 001 adding PKG 1===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 001
+* Delivering PKG: 1
+
+
+===============Seller 001 adding PKG 2===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 001
+* Delivering PKG: 1, 2
+
+
+===============Seller 001 adding PKG 3===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+
+* Seller 001
+* Delivering PKG: 1, 2
+
+------------!!!Seller 001 adding PKG!!!------------
+
+
+===============Check Data: Seller 001===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: 1, 2
+
+===============Seller 002 adding PKG 100===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 002
+* Delivering PKG: 100
+
+
+===============Seller 002 adding PKG 101===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+* Seller 002
+* Delivering PKG: 100, 101
+
+
+===============Check Data: Seller 002===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg  100 :   CA ->   NY
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: 100, 101
+
+===============Flight001 CA->NY Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 100
+
+===============Flight001 CA->NY Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 1
+
+===============Flight001 CA->NY Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Pkg 3's position is not here!
+------------!!!Flight001 CA->NY fail loading!!!------------
+
+
+===============Check Data: Flight001 CA->NY===============
+Loaded PKG: 100, 1
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   CA ->   AK
+pkg  100 :   CA ->   NY
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
+
+
+===============Flight001 CA->NY Took Off===============
+calling GFS LookUp (ObtainChunkURL)
+
+* Flight 001: NY->CA
+* Loaded PKG: 100, 1
+
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+===============Check Data: Flight001 NY->CA===============
+Loaded PKG: None
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   NY ->   AK
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
+
+
+===============Flight002 NY->AK Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 1
+
+===============Flight002 NY->AK Loading PKG===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+Good! Successfully loaded package: 2
+
+===============Check Data: Flight002 NY->AK===============
+Loaded PKG: 1, 2
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg    1 :   NY ->   AK
+pkg  101 :   CA ->   XX
+pkg    2 :   NY ->   AK
+pkg    3 :   NY ->   XX
+.........................
+
+
+===============Flight002 NY->AK Took Off===============
+calling GFS LookUp (ObtainChunkURL)
+
+* Flight 002: AK->NY
+* Loaded PKG: 1, 2
+
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp (PushChunk2Replica)
+calling GFS LookUp
+calling GFS LookUp
+calling GFS LookUp
+
+===============Check Data: Flight002 AK->NY===============
+Loaded PKG: None
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+
+===============Check Data: Seller 001===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: None
+
+===============Check Data: Seller 002===============
+calling GFS LookUp (ObtainChunkURL)
+calling GFS dumpJ
+
+.........................
+pkg  101 :   CA ->   XX
+pkg    3 :   NY ->   XX
+.........................
+
+Delivering PKG: 101

@@ -22,7 +22,7 @@ public:
         pkg_arr.clear();
     }
 
-    int landed();
+    void landed();
     void set_destination(std::string position);
     void load_package(std::string pkg_id);
     void check_data();
@@ -41,6 +41,15 @@ void Flight::set_destination(std::string position){
 }
 
 void Flight::check_data(){
+    std::cout<<"\n===============Check Data: Flight"<< flight_id<< " "<<_from<<"->"<<_to<<"==============="<<std::endl;
+    std::cout<<"Loaded PKG: ";
+    for(int i=0;i<pkg_arr.size();i++){
+        std::cout<<pkg_arr[i];
+        if(i!=pkg_arr.size()-1) std::cout<<", ";
+    }
+    if(pkg_arr.size()==0) std::cout<<"None";
+    std::cout<<std::endl;
+
     Json::Value result, result_P, result_A, result_B;
     result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
     while((result["status"]).asString() != "URLpassed"){
@@ -59,7 +68,6 @@ void Flight::check_data(){
     Shadow_Replica gfs_secondary_B
     { url_secondary_B, "1234567890", "Replica", "00000003" };
 
-    std::cout<<"===============Check PKG Data==============="<<std::endl;
     result = *gfs_primary.dumpJ();
     if((result["data"]).isString()) {
         std::string data = (result["data"]).asString();
@@ -67,26 +75,28 @@ void Flight::check_data(){
         ss.clear();
         ss.str(data);
         std::string line;
-        std::cout<<"\n........................................"<<std::endl;
+        std::cout<<"\n........................."<<std::endl;
         while (1)
         {
             std::getline(ss,line);
             if(line==""||line=="\n") break;
-            std::cout<<std::setw(4)<<line<<" : ";
+            std::cout<<"pkg "<<std::setw(4)<<line<<" : ";
+            std::getline(ss,line);
+            std::cout<<std::setw(4)<<line<<" -> ";
             std::getline(ss,line);
             std::cout<<std::setw(4)<<line<<std::endl;
 
             if ( ss.fail() ) break;
         }
-        std::cout<<"........................................\n"<<std::endl;
+        std::cout<<".........................\n"<<std::endl;
         
-        std::cout<<"---------------Checked PKG Data---------------"<<std::endl;
+        // std::cout<<"---------------Checked Data: Flight"<< flight_id<< " "<<_from<<"->"<<_to<<"---------------\n"<<std::endl;
     }
-    else std::cout<<"------------!!!Check PKG Data!!!------------"<<std::endl;
+    else std::cout<<"------------!!!Check Data: Flight"<< flight_id<< " "<<_from<<"->"<<_to<<"!!!------------\n"<<std::endl;
 }
 
 void Flight::load_package(std::string ld_pkg_id){
-    std::cout<<"===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Loading PKG==============="<<std::endl;
+    std::cout<<"\n===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Loading PKG==============="<<std::endl;
 
     Json::Value result, result_P, result_A, result_B;
     result = gfs_master.ObtainChunkURL("my_ecs251_file", fhandle, "0");
@@ -116,9 +126,10 @@ void Flight::load_package(std::string ld_pkg_id){
         std::map<std::string, std::string> pkg_map;
         while (1)
         {
-            std::string pkg_id, position;
+            std::string pkg_id, position, destination;
             std::getline(ss,pkg_id);
             std::getline(ss,position);
+            std::getline(ss,destination);
 
             // std::cout<<pkg_id<<std::endl;
             // std::cout<<position<<std::endl;
@@ -126,7 +137,7 @@ void Flight::load_package(std::string ld_pkg_id){
             if(pkg_id==""||pkg_id=="\n") break;
             if(!(pkg_map.insert(std::pair<std::string, std::string>(pkg_id, position))).second){
                 std::cout<<"Chunk Error"<<std::endl;
-                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------\n"<<std::endl;
                 return; 
             }
             
@@ -137,8 +148,8 @@ void Flight::load_package(std::string ld_pkg_id){
  
         if(iter != pkg_map.end()){
             if(iter->second!=_from){
-                std::cout<<"Pkg position is not here!"<<std::endl;
-                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+                std::cout<<"Pkg "<< ld_pkg_id <<"\'s position is not here!"<<std::endl;
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------\n"<<std::endl;
                 return; 
             }
         }
@@ -147,7 +158,7 @@ void Flight::load_package(std::string ld_pkg_id){
         }
     }
     else {
-        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------\n"<<std::endl;
         return;
     }
 
@@ -157,15 +168,15 @@ void Flight::load_package(std::string ld_pkg_id){
     }
     else {
         std::cout<<"Bad!! Already loaded this package: "<< ld_pkg_id <<std::endl;
-        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------"<<std::endl;
+        std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" fail loading!!!------------\n"<<std::endl;
         return;
     }
 
-    std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" PKG loaded---------------"<<std::endl;
+    //std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" PKG loaded---------------\n"<<std::endl;
 }
 
-int Flight::landed(){
-    std::cout<<"===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Took Off==============="<<std::endl;
+void Flight::landed(){
+    std::cout<<"\n===============Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Took Off==============="<<std::endl;
     string position = _to;
     _to = _from;
     _from = position;
@@ -188,14 +199,20 @@ int Flight::landed(){
     Shadow_Replica gfs_secondary_B
     { url_secondary_B, "1234567890", "Replica", "00000003" };
 
-    std::string my_chunk_data = _to + "\n" + position + "\n";
+    std::string my_chunk_data = "Flight" + flight_id+"\n"+_to + "\n" + position + "\n";
     for(int i=0;i<pkg_arr.size();i++){
         my_chunk_data += pkg_arr[i] + "\n";
     }
 
-    std::cout<<"\n........................................"<<std::endl;
-    std::cout<<my_chunk_data;
-    std::cout<<"........................................\n"<<std::endl;
+    // std::cout<<"\n........................................"<<std::endl;
+    std::cout<<"\n* Flight "<< flight_id<< ": "<<_from<<"->"<<_to<<"\n* Loaded PKG: ";
+    for(int i=0;i<pkg_arr.size();i++){
+        std::cout<<pkg_arr[i];
+        if(i!=pkg_arr.size()-1) std::cout<<", ";
+    }
+    if(pkg_arr.size()==0) std::cout<<"None";
+    std::cout<<"\n"<<std::endl;
+    // std::cout<<"........................................\n"<<std::endl;
 
     while(true){
         //Step3
@@ -216,7 +233,7 @@ int Flight::landed(){
             ((result_A["status"]).asString() == "committed") &&
             ((result_B["status"]).asString() == "committed")) {
                 pkg_arr.clear();
-                std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landed---------------"<<std::endl;
+                // std::cout<<"---------------Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landed---------------\n"<<std::endl;
                 break;
             }
         }
@@ -228,31 +245,9 @@ int Flight::landed(){
             // ((result_A["Error"]).asString() == "Chunk Error") ||
             // ((result_B["Error"]).asString() == "Chunk Error")) break;
             if(!(result_P["Error"]).isNull() || !(result_P["Error"]).isNull() || !(result_P["Error"]).isNull()) {
-                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landing!!!------------"<<std::endl;
+                std::cout<<"------------!!!Flight"<< flight_id<< " "<<_from<<"->"<<_to<<" Landing!!!------------\n"<<std::endl;
                 break;
             }
         }
     }
-
-    return 0;
-}
-
-int
-main()
-{
-    Flight flight1("001","CA","NY");
-    // Flight flight1("001","NY","CA");
-    flight1.load_package("100");
-    flight1.load_package("1");
-    // flight1.load_package("2");
-    // flight1.load_package("1");
-    flight1.landed();
-    flight1.check_data();
-
-    Flight flight2("002","NY","LA");
-    flight2.load_package("1");
-    flight2.landed();
-    flight2.check_data();
-
-    return 0;
 }

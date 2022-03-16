@@ -14,7 +14,7 @@ Shadow_Directory::Shadow_Directory
  std::string arg_object_id)
   : Directory { arg_host_url, arg_vsID, arg_class_id, arg_object_id }
 {
-  std::cout << "Shadow created" << std::endl;
+  //std::cout << "Shadow created" << std::endl;
 }
 
 Json::Value
@@ -26,13 +26,13 @@ Shadow_Directory::ObtainChunkURL
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << " (ObtainChunkURL)"<< std::endl;
+    std::cout << "calling GFS LookUp" << " (ObtainChunkURL)"<< std::endl;
 
     myv = myClient.ObtainChunkURL("ObtainChunkURL", "This is a Directory JSON string!", arg_chunk_index,
 			  (this->class_id).c_str(), arg_fhandle, arg_name, 
 			  (this->host_url).c_str(),
 			  (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
@@ -48,13 +48,13 @@ Shadow_Directory::LookUp
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << std::endl;
+    std::cout << "calling GFS LookUp" << std::endl;
 
     myv = myClient.LookUp("LookUp", "This is a Directory JSON string!",
 			  (this->class_id).c_str(), arg_dir_fhandle, arg_name,
 			  (this->host_url).c_str(),
 			  (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
@@ -70,7 +70,7 @@ Shadow_Directory::Create
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS Create" << std::endl;
+    std::cout << "calling GFS Create" << std::endl;
 
     myv = myClient.Create("Create", "This is a Directory JSON string!",
 			  (this->class_id).c_str(), std::string {"Node"},
@@ -78,7 +78,7 @@ Shadow_Directory::Create
 			  (this->host_url).c_str(),
 			  (this->object_id).c_str(), (this->owner_vsID).c_str(),
 			  arg_sattr);
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
@@ -94,12 +94,12 @@ Shadow_Directory::dumpJ
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS dumpJ" << std::endl;
+    std::cout << "calling GFS dumpJ" << std::endl;
 
     myv = myClient.dumpJ("dumpJ", "This is a Directory JSON string!",
 			 (this->class_id).c_str(), (this->host_url).c_str(),
 			 (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }

@@ -174,7 +174,7 @@ main()
   // mounted = (&NFS_root);
   
   Replica GFS_primaryReplica
-  { "http://169.237.6.102", "1234567890", "Replica", "00000001", "100\nCA\n101\nCA\n1\nCA\n"};
+  { "http://169.237.6.102", "1234567890", "Replica", "00000001", ""};
 
   mounted = (&GFS_primaryReplica);
 

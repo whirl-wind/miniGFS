@@ -14,7 +14,7 @@ Shadow_Replica::Shadow_Replica
  std::string arg_object_id)
   : Replica { arg_host_url, arg_vsID, arg_class_id, arg_object_id }
 {
-  std::cout << "Shadow created" << std::endl;
+  //std::cout << "Shadow created" << std::endl;
 }
 
 Json::Value
@@ -27,14 +27,14 @@ Shadow_Replica::CommitAbort
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << std::endl;
+    std::cout << "calling GFS LookUp" << std::endl;
 
     myv = myClient.CommitAbort("CommitAbort", "This is a Directory JSON string!",
 			       arg_chunk_index,
 			       (this->class_id).c_str(), arg_commitorabort, arg_fhandle, arg_name,
 			       (this->host_url).c_str(),
 			       (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
@@ -50,14 +50,14 @@ Shadow_Replica::PushChunk2Replica
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS LookUp" << " (PushChunk2Replica)"<< std::endl;
+    std::cout << "calling GFS LookUp" << " (PushChunk2Replica)"<< std::endl;
 
     myv = myClient.PushChunk2Replica("PushChunk2Replica", "This is a Directory JSON string!",
 				     arg_chunk, arg_chunk_index,
 				     (this->class_id).c_str(), arg_fhandle, arg_name,
 				     (this->host_url).c_str(),
 				     (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    // cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
@@ -73,12 +73,12 @@ Shadow_Replica::dumpJ
   Json::Value myv;
 
   try {
-    std::cout << "calling NFS dumpJ" << std::endl;
+    std::cout << "calling GFS dumpJ" << std::endl;
 
     myv = myClient.dumpJ("dumpJ", "This is a Directory JSON string!",
 			 (this->class_id).c_str(), (this->host_url).c_str(),
 			 (this->object_id).c_str(), (this->owner_vsID).c_str());
-    cout << myv.toStyledString() << endl;
+    //cout << myv.toStyledString() << endl;
   } catch (JsonRpcException &e) {
     cerr << e.what() << endl;
   }
