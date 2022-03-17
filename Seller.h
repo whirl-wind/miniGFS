@@ -5,6 +5,7 @@
 #include "minigfs_client.h"
 #include "Shadow_Directory.h"
 #include "Shadow_Replica.h"
+#include <algorithm>
 
 using namespace jsonrpc;
 using namespace std;
@@ -130,8 +131,11 @@ void Seller::package_pkg(std::string pkg_ID, std::string custom_ID, std::string 
 
     while(true){
         //Step3
+        std::cout << "Push data to replica 1" << std::endl;
         result_P = gfs_primary.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+        std::cout << "Push data to replica 2" << std::endl;
         result_A = gfs_secondary_A.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
+        std::cout << "Push data to replica 3" << std::endl;
         result_B = gfs_secondary_B.PushChunk2Replica("my_ecs251_file", fhandle, "0", my_chunk_data);
 
         //Step4

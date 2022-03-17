@@ -3,7 +3,7 @@
 # Makefile for miniGFS, ecs251 and ecs36b
 #
 
-CC = g++ -std=c++17
+CC = g++ -std=c++11
 
 # CFLAGS = -g
 

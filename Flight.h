@@ -5,6 +5,7 @@
 #include "minigfs_client.h"
 #include "Shadow_Directory.h"
 #include "Shadow_Replica.h"
+#include <algorithm>
 
 using namespace jsonrpc;
 using namespace std;

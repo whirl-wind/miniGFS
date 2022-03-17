@@ -27,7 +27,7 @@ Shadow_Replica::CommitAbort
   Json::Value myv;
 
   try {
-    std::cout << "calling GFS LookUp" << std::endl;
+    // std::cout << "calling GFS LookUp" << std::endl;
 
     myv = myClient.CommitAbort("CommitAbort", "This is a Directory JSON string!",
 			       arg_chunk_index,
@@ -50,7 +50,7 @@ Shadow_Replica::PushChunk2Replica
   Json::Value myv;
 
   try {
-    std::cout << "calling GFS LookUp" << " (PushChunk2Replica)"<< std::endl;
+    // std::cout << "calling GFS LookUp" << " (PushChunk2Replica)"<< std::endl;
 
     myv = myClient.PushChunk2Replica("PushChunk2Replica", "This is a Directory JSON string!",
 				     arg_chunk, arg_chunk_index,
@@ -73,7 +73,7 @@ Shadow_Replica::dumpJ
   Json::Value myv;
 
   try {
-    std::cout << "calling GFS dumpJ" << std::endl;
+    // std::cout << "calling GFS dumpJ" << std::endl;
 
     myv = myClient.dumpJ("dumpJ", "This is a Directory JSON string!",
 			 (this->class_id).c_str(), (this->host_url).c_str(),

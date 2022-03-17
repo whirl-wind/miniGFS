@@ -1,5 +1,6 @@
 
 #include "Directory.h"
+#include <string.h>
 
 Dirent::Dirent()
 {
